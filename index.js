@@ -10,12 +10,20 @@ var cp = require( 'child_process');
 var http = require('http');
 var finalhandler = require('finalhandler');
 var serveStatic = require('serve-static');
+var fs = require('fs');
+var rimraf = require('rimraf');
+
+if(fs.existsSync(path.join('/tmp','slack_emojifier'))){
+  rimraf.sync(path.join('/tmp','slack_emojifier'));
+}
+
+fs.mkdirSync(path.join('/tmp','slack_emojifier'));
 
 var name = path.basename(process.argv[5]).split('.')[0]
 
 var num_cols = parseInt(process.argv[6])
 
-var serve = serveStatic( __dirname);
+var serve = serveStatic(path.join('/tmp','slack_emojifier'));
 
 var server = http.createServer(function(req, res) {
   var done = finalhandler(req, res);
@@ -29,14 +37,15 @@ var dimensions = sizeOf(process.argv[5]);
 
 var emoji_size = parseInt(dimensions.width/num_cols);
 
-convert = cp.execSync('convert '+ process.argv[5] +' -crop '+emoji_size+'x'+emoji_size+' -set filename:tile "%[fx:ceil(page.x/'+emoji_size+'+1)]_%[fx:ceil(page.y/'+emoji_size+'+1)]" +repage +adjoin "'+path.join( __dirname,'tmp',name)+'_%[filename:tile].png"')
+convert = cp.execSync('convert '+ process.argv[5] +' -crop '+emoji_size+'x'+emoji_size+' -set filename:tile "%[fx:ceil(page.x/'+emoji_size+'+1)]_%[fx:ceil(page.y/'+emoji_size+'+1)]" +repage +adjoin "'+path.join('/tmp','slack_emojifier',name)+'_%[filename:tile].png"')
 var tunnel = localtunnel(5000, function(err, tunnel) {
     if (err){
       return;
     }
 
-  glob(path.join(__dirname,"tmp",name)+"*.*", function (er, files) {
+  glob(path.join("/tmp","slack_emojifier/")+"*.*", function (er, files) {
     var emojis = []
+    console.log(files)
 
     files.sort(function(a, b) {
       var a_match = a.match(/_(\d+)_(\d+)/);

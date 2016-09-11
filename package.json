@@ -13,13 +13,14 @@
   },
   "license": "ISC",
   "dependencies": {
+    "emojipacks": "jordanbuchman/emojipacks",
     "finalhandler": "^0.5.0",
     "glob": "^7.0.6",
     "gm": "^1.23.0",
     "image-size": "^0.5.0",
     "localtunnel": "^1.8.1",
-    "serve-static": "^1.11.1",
-    "emojipacks": "jordanbuchman/emojipacks"
+    "rimraf": "^2.5.4",
+    "serve-static": "^1.11.1"
   },
   "preferGlobal": "true",
   "bin": {
