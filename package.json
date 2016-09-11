@@ -1,7 +1,7 @@
 {
   "name": "slack-emojifier",
   "author": "Jordan Buchman",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Turn images into slack emoji grids",
   "main": "index.js",
   "scripts": {
