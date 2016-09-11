@@ -15,26 +15,27 @@ var name = path.basename(process.argv[5]).split('.')[0]
 
 var num_cols = parseInt(process.argv[6])
 
-var serve = serveStatic("./");
+var serve = serveStatic( __dirname);
 
 var server = http.createServer(function(req, res) {
   var done = finalhandler(req, res);
   serve(req, res, done);
 });
 
+console.log(__dirname)
 server.listen(5000);
 
 var dimensions = sizeOf(process.argv[5]);
 
 var emoji_size = parseInt(dimensions.width/num_cols);
 
-convert = cp.execSync('convert '+ process.argv[5] +' -crop '+emoji_size+'x'+emoji_size+' -set filename:tile "%[fx:ceil(page.x/'+emoji_size+'+1)]_%[fx:ceil(page.y/'+emoji_size+'+1)]" +repage +adjoin "'+path.join('tmp',name)+'_%[filename:tile].png"')
+convert = cp.execSync('convert '+ process.argv[5] +' -crop '+emoji_size+'x'+emoji_size+' -set filename:tile "%[fx:ceil(page.x/'+emoji_size+'+1)]_%[fx:ceil(page.y/'+emoji_size+'+1)]" +repage +adjoin "'+path.join( __dirname,'tmp',name)+'_%[filename:tile].png"')
 var tunnel = localtunnel(5000, function(err, tunnel) {
     if (err){
       return;
     }
 
-  glob("tmp/"+name+"*.*", function (er, files) {
+  glob(path.join(__dirname,"tmp",name)+"*.*", function (er, files) {
     var emojis = []
 
     files.sort(function(a, b) {
@@ -58,7 +59,7 @@ var tunnel = localtunnel(5000, function(err, tunnel) {
       var name = path.basename(file).split('.')[0]
 
       emojis.push({
-        'src': tunnel.url+"/"+file,
+        'src': tunnel.url+"/"+path.basename(file),
         'name': name
         })
     });
