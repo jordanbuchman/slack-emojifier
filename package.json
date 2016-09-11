@@ -1,0 +1,28 @@
+{
+  "name": "slack-emojifier",
+  "author": "Jordan Buchman",
+  "version": "0.1.0",
+  "description": "Turn images into slack emoji grids",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/jordanbuchman/slack-emojifier"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "finalhandler": "^0.5.0",
+    "glob": "^7.0.6",
+    "gm": "^1.23.0",
+    "image-size": "^0.5.0",
+    "localtunnel": "^1.8.1",
+    "serve-static": "^1.11.1",
+    "emojipacks": "jordanbuchman/emojipacks"
+  },
+  "preferGlobal": "true",
+  "bin": {
+    "emojify": "./index.js"
+  },
+}
