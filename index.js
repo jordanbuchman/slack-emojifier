@@ -13,6 +13,46 @@ var serveStatic = require('serve-static');
 var fs = require('fs');
 var rimraf = require('rimraf');
 
+var argv = require('yargs')
+    .usage('Usage: $0 <command> [options]')
+    .command('create', 'Create and upload an emoji grid')
+    .example('$0 create -s mysubdomain -e my@email.com -p mypassword -i myimage.png -n 5', 'Create a 5-column emoji grid of myimage.png and upload to mysubdomain.slack.com using the account my@email.com with the password mypassword.')
+    .option('s', {
+        alias: 'subdomain',
+        demand: true,
+        describe: 'Slack subdomain',
+        type: 'string'
+    })
+    .option('e', {
+        alias: 'email',
+        demand: true,
+        describe: 'Slack account email address',
+        type: 'string'
+    })
+    .option('p', {
+        alias: 'password',
+        demand: true,
+        describe: 'Slack account password',
+        type: 'string'
+    })
+    .option('i', {
+        alias: 'image',
+        demand: true,
+        describe: 'Path of the image to emojify',
+        type: 'string'
+    })
+    .option('n', {
+        alias: 'numcols',
+        demand: true,
+        describe: 'Number of columns in final grid',
+        type: 'number'
+    })
+    .argv;
+
+if (argv._ != 'create'){
+  process.exit();
+}
+
 if(fs.existsSync(path.join('/tmp','slack_emojifier'))){
   rimraf.sync(path.join('/tmp','slack_emojifier'));
 }
