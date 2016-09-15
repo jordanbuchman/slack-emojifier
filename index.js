@@ -60,7 +60,7 @@ var tunnel = localtunnel(5000, function(err, tunnel) {
     });
     files.forEach(function(file){
       cp.exec("convert "+ file +" -resize "+emoji_size+'x'+emoji_size+" -background 'rgba(0,0,0,0)' -gravity NorthWest -extent "+emoji_size+'x'+emoji_size+" "+file, function(err,stdout,stderr){
-        cp.execSync("convert "+ file +" -resize "+128+'x'+128+"\\> "+file);
+        cp.execSync("convert "+ file +" -resize "+128+'x'+128+" "+file);
       });
 
       var name = path.basename(file).split('.')[0]
