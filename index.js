@@ -30,7 +30,6 @@ var server = http.createServer(function(req, res) {
   serve(req, res, done);
 });
 
-console.log(__dirname)
 server.listen(5000);
 
 var dimensions = sizeOf(process.argv[5]);
@@ -45,7 +44,6 @@ var tunnel = localtunnel(5000, function(err, tunnel) {
 
   glob(path.join("/tmp","slack_emojifier/")+"*.*", function (er, files) {
     var emojis = []
-    console.log(files)
 
     files.sort(function(a, b) {
       var a_match = a.match(/_(\d+)_(\d+)/);
