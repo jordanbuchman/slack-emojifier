@@ -59,9 +59,9 @@ if(fs.existsSync(path.join('/tmp','slack_emojifier'))){
 
 fs.mkdirSync(path.join('/tmp','slack_emojifier'));
 
-var name = path.basename(process.argv[5]).split('.')[0]
+var name = path.basename(argv.i).split('.')[0]
 
-var num_cols = parseInt(process.argv[6])
+var num_cols = parseInt(argv.n)
 
 var serve = serveStatic(path.join('/tmp','slack_emojifier'));
 
@@ -72,11 +72,11 @@ var server = http.createServer(function(req, res) {
 
 server.listen(5000);
 
-var dimensions = sizeOf(process.argv[5]);
+var dimensions = sizeOf(argv.i);
 
 var emoji_size = parseInt(dimensions.width/num_cols);
 
-convert = cp.execSync('convert '+ process.argv[5] +' -crop '+emoji_size+'x'+emoji_size+' -set filename:tile "%[fx:ceil(page.x/'+emoji_size+'+1)]_%[fx:ceil(page.y/'+emoji_size+'+1)]" +repage +adjoin "'+path.join('/tmp','slack_emojifier',name)+'_%[filename:tile].png"')
+convert = cp.execSync('convert '+ argv.i +' -crop '+emoji_size+'x'+emoji_size+' -set filename:tile "%[fx:ceil(page.x/'+emoji_size+'+1)]_%[fx:ceil(page.y/'+emoji_size+'+1)]" +repage +adjoin "'+path.join('/tmp','slack_emojifier',name)+'_%[filename:tile].png"')
 var tunnel = localtunnel(5000, function(err, tunnel) {
     if (err){
       return;
@@ -119,7 +119,7 @@ var tunnel = localtunnel(5000, function(err, tunnel) {
       process.stdout.write(":"+emoji_name+":");
     });
     process.stdout.write(os.EOL)
-    emojipacks.upload(process.argv[2], process.argv[3], process.argv[4], emojis)
+    emojipacks.upload(argv.s, argv.e, argv.p, emojis)
     return;
   });
 })
