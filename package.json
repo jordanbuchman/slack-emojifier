@@ -3,6 +3,7 @@
   "author": "Jordan Buchman",
   "version": "0.2.0",
   "description": "Turn images into slack emoji grids",
+  "keywords": ["slack","emoji","emojify","emojifier"],
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
