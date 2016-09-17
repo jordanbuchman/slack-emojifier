@@ -12,6 +12,8 @@ var finalhandler = require('finalhandler');
 var serveStatic = require('serve-static');
 var fs = require('fs');
 var rimraf = require('rimraf');
+var deasync = require('deasync');
+var prompt = require('prompt');
 
 var argv = require('yargs')
     .usage('Usage: $0 <command> [options]')
@@ -19,31 +21,26 @@ var argv = require('yargs')
     .example('$0 create -s mysubdomain -e my@email.com -p mypassword -i myimage.png -n 5', 'Create a 5-column emoji grid of myimage.png and upload to mysubdomain.slack.com using the account my@email.com with the password mypassword.')
     .option('s', {
         alias: 'subdomain',
-        demand: true,
         describe: 'Slack subdomain',
         type: 'string'
     })
     .option('e', {
         alias: 'email',
-        demand: true,
         describe: 'Slack account email address',
         type: 'string'
     })
     .option('p', {
         alias: 'password',
-        demand: true,
         describe: 'Slack account password',
         type: 'string'
     })
     .option('i', {
         alias: 'image',
-        demand: true,
         describe: 'Path of the image to emojify',
         type: 'string'
     })
     .option('n', {
         alias: 'numcols',
-        demand: true,
         describe: 'Number of columns in final grid',
         type: 'number'
     })
@@ -52,6 +49,37 @@ var argv = require('yargs')
 if (argv._ != 'create'){
   process.exit();
 }
+
+var schema = {
+    properties: {
+      s: {
+        description: 'Slack subdomain',
+        required: true
+      },
+      e: {
+        description: 'Slack account email address',
+        required: true
+      },
+      p: {
+        description: 'Slack account password',
+        required: true,
+        hidden: true
+      },
+      i: {
+        description: 'Path of the image to emojify',
+        required: true
+      },
+      n: {
+        description: 'Number of columns in final grid',
+        required: true
+      }
+    }
+  };
+prompt.override = argv;
+prompt.start();
+promptGet = deasync(prompt.get);
+argv = promptGet(schema);
+
 
 if(fs.existsSync(path.join('/tmp','slack_emojifier'))){
   rimraf.sync(path.join('/tmp','slack_emojifier'));
