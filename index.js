@@ -44,6 +44,8 @@ var argv = require('yargs')
         describe: 'Number of columns in final grid',
         type: 'number'
     })
+    .help('h')
+    .alias('h', 'help')
     .argv;
 
 if (argv._ != 'create'){

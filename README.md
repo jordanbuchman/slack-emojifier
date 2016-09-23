@@ -19,6 +19,8 @@ Options:
   -p, --password   Slack account password                    [string]
   -i, --image      Path of the image to emojify              [string]
   -n, --numcols    Number of columns in final grid           [number]
+  -h, --help       Show help                                [boolean]
+
 
 Examples:
   emojify create -s mysubdomain -e         Create a 5-column emoji grid of
