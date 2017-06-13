@@ -165,8 +165,6 @@ if (argv.i.endsWith('.gif')){
   var gifInfo = gifyParse.getInfo(fs.readFileSync(argv.i));
   var delay = parseInt(gifInfo.duration / gifInfo.images.length / 10);
   var num_frames = gifInfo.images.length;
-  console.log(delay);
-  console.log(gifInfo.images[0].delay)
   convert = cp.execSync('convert '+ argv.i +' +repage +adjoin '+path.join('/tmp','slack_emojifier',name)+'_%d.gif');
 
   glob_sync(path.join("/tmp","slack_emojifier/")+"*.*", function (er, files) {
@@ -174,12 +172,10 @@ if (argv.i.endsWith('.gif')){
       var name = path.basename(file).split('.')[0]
       var convert = cp.execSync('convert '+ file +' -coalesce -crop '+emoji_size+'x'+emoji_size+' -set filename:tile "%[fx:ceil(page.x/'+emoji_size+'+1)]_%[fx:ceil(page.y/'+emoji_size+'+1)]" +repage +adjoin "'+path.join('/tmp','slack_emojifier',name)+'_%[filename:tile].gif"');
       var remove = cp.execSync('rm '+file);
-      console.log(file)
     });
     var num_rows = parseInt(Math.ceil(dimensions.height/emoji_size));
     for (var col=1; col<=num_cols; col++){
       for (var row=1; row<=num_rows; row++){
-        console.log(row,col);
         var animate = cp.execSync('convert '+'-delay '+delay+' -dispose Background -loop 0 '+path.join("/tmp","slack_emojifier/")+"*"+col+"_"+row+".gif "+path.join("/tmp","slack_emojifier/")+name+"_"+col+"_"+row+".gif");
         var remove = cp.execSync('rm '+path.join("/tmp","slack_emojifier/")+name+"_*_"+col+"_"+row+".gif")
       }
@@ -187,7 +183,6 @@ if (argv.i.endsWith('.gif')){
     upload();
     process.exit();
   });
-  console.log("done!")
 }
 
 else{
