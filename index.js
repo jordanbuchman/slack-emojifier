@@ -181,7 +181,6 @@ if (argv.i.endsWith('.gif')){
       }
     }
     upload();
-    process.exit();
   });
 }
 
