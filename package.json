@@ -22,6 +22,7 @@
     "deasync": "^0.1.7",
     "emojipacks": "jordanbuchman/emojipacks",
     "finalhandler": "^0.5.0",
+    "gify-parse": "^1.0.6",
     "glob": "^7.0.6",
     "image-size": "^0.5.0",
     "localtunnel": "^1.8.1",
